@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
 
-export const runtime = "nodejs"; // 👈 fuerza modo Node
+export const runtime = "nodejs"; // 👈 Forzar entorno Node.js (no Edge)
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
+// ✅ Handler principal del endpoint
 export async function POST(req: Request) {
   try {
     const { student_id, course_id, director_id } = await req.json();
@@ -16,7 +17,7 @@ export async function POST(req: Request) {
       );
     }
 
-    // 🔹 1. Actualizar el curso del alumno
+    // 1️⃣ Actualizar curso del alumno
     const { error: updateError } = await supabaseServer
       .from("students")
       .update({ course_id })
@@ -24,7 +25,7 @@ export async function POST(req: Request) {
 
     if (updateError) throw updateError;
 
-    // 🔹 2. Registrar acción en activity_logs
+    // 2️⃣ Registrar acción en activity_logs
     await supabaseServer.from("activity_logs").insert([
       {
         user_id: director_id,
@@ -40,10 +41,8 @@ export async function POST(req: Request) {
     });
   } catch (err) {
     console.error("❌ Error en /api/students/assign:", err);
-
     const message =
       err instanceof Error ? err.message : "Error interno del servidor.";
-
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
