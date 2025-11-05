@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+
 import { supabase } from "@/lib/supabaseClient";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
@@ -9,12 +10,10 @@ import {
   BookOpen,
   GraduationCap,
   Users,
-  Calendar,
   X,
   Search,
   Filter,
   Archive,
-  Edit2,
   Plus,
 } from "lucide-react";
 
@@ -64,7 +63,7 @@ const INITIAL_FORM_DATA: FormData = {
 };
 
 const GRADE_OPTIONS = ["1°", "2°", "3°", "4°", "5°", "6°"];
-const LEVEL_OPTIONS = ["Primaria", "Secundaria"];
+const LEVEL_OPTIONS = ["inicial", "Primaria", "Secundaria"];
 const PERIOD_OPTIONS = [
   "I Bimestre",
   "II Bimestre",
